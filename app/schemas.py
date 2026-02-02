@@ -13,7 +13,11 @@ class UserCreate(UserBase):
 class UserRead(UserBase):
     id:int
     created_at:datetime
-    
+
     # чтобы Pydantic мог работать с объектами SQLAlchemy
     class Config:
         orm_mode=True
+
+class UserLogin(BaseModel):
+    email: str
+    password: str

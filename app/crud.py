@@ -1,7 +1,17 @@
 from sqlalchemy.orm import Session
 from . import models, schemas
-# CRUD = Create, Read, Update, Delete
+from passlib.context import CryptContext
 
+
+
+# CRUD = Create, Read, Update, Delete
+pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+
+def hash_password(password: str):
+    return pwd_context.hash(password)
+
+def verify_password(plain_password, hashed_password):
+    return pwd_context.verify(plain_password, hashed_password)
 
 # функция для создания нового пользователя
 def create_user(db: Session, user: schemas.UserCreate):
@@ -9,7 +19,7 @@ def create_user(db: Session, user: schemas.UserCreate):
     # user - это Pydantic схема (UserCreate) с данными от клиента
     db_user = models.User(
         email=user.email,
-        hashed_password=user.hashed_password
+        hashed_password=hash_password(user.password)
     )
     db.add(db_user)       # добавляем объект в сессию (пока не в БД, только в память)
     db.commit()           # сохраняем изменения в базе данных (создаём запись)
