@@ -40,3 +40,38 @@ def get_user(db: Session, user_id: int):
 def get_users(db: Session, skip: int = 0, limit: int = 100):
     # запрашиваем всех пользователей, пропускаем первые `skip`, ограничиваем `limit`
     return db.query(models.User).offset(skip).limit(limit).all()
+
+
+
+
+
+
+
+# CREATE пост
+def create_post(db: Session, post: schemas.PostCreate, user_id: int):
+    db_post = models.Post(title=post.title, content=post.content, owner_id=user_id)
+    db.add(db_post)
+    db.commit()
+    db.refresh(db_post)
+    return db_post
+
+# GET пост по id
+def get_post(db: Session, post_id: int):
+    return db.query(models.Post).filter(models.Post.id == post_id).first()
+
+# GET все посты
+def get_posts(db: Session, skip: int = 0, limit: int = 100):
+    return db.query(models.Post).offset(skip).limit(limit).all()
+
+# UPDATE пост (только если автор)
+def update_post(db: Session, db_post: models.Post, post: schemas.PostUpdate):
+    db_post.title = post.title
+    db_post.content = post.content
+    db.commit()
+    db.refresh(db_post)
+    return db_post
+
+# DELETE пост (только если автор)
+def delete_post(db: Session, db_post: models.Post):
+    db.delete(db_post)
+    db.commit()

@@ -21,3 +21,21 @@ class UserRead(UserBase):
 class UserLogin(BaseModel):
     email: str
     password: str
+
+
+
+
+
+class PostCreate(BaseModel):
+    title: str
+    content: str
+
+class PostUpdate(BaseModel):
+    title: str
+    content: str
+
+class CommentCreate(BaseModel):
+    text: str
+
+class CommentUpdate(BaseModel):
+    text: str
