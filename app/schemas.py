@@ -39,3 +39,12 @@ class CommentCreate(BaseModel):
 
 class CommentUpdate(BaseModel):
     text: str
+
+class CommentRead(BaseModel):
+    id: int
+    text: str
+    owner_id: int
+    post_id: int
+
+    class Config:
+        orm_mode = True
