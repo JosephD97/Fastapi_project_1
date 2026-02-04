@@ -75,3 +75,32 @@ def update_post(db: Session, db_post: models.Post, post: schemas.PostUpdate):
 def delete_post(db: Session, db_post: models.Post):
     db.delete(db_post)
     db.commit()
+def create_comment(db: Session, comment: schemas.CommentCreate, post_id: int, user_id: int):
+    db_comment = models.Comment(
+        text=comment.text,
+        post_id=post_id,
+        owner_id=user_id
+    )
+    db.add(db_comment)
+    db.commit()
+    db.refresh(db_comment)
+    return db_comment
+
+
+# GET комментарий по id
+def get_comment(db: Session, comment_id: int):
+    return db.query(models.Comment).filter(models.Comment.id == comment_id).first()
+
+
+# UPDATE комментарий
+def update_comment(db: Session, db_comment: models.Comment, comment: schemas.CommentUpdate):
+    db_comment.text = comment.text
+    db.commit()
+    db.refresh(db_comment)
+    return db_comment
+
+
+# DELETE комментарий
+def delete_comment(db: Session, db_comment: models.Comment):
+    db.delete(db_comment)
+    db.commit()
