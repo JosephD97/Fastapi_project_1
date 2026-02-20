@@ -6,8 +6,8 @@ from fastapi.security import OAuth2PasswordBearer
 
 
 
-# секретный ключ и настройки токена
-SECRET_KEY = "supersecretkey"  # потом можно положить в .env
+
+SECRET_KEY = "supersecretkey"
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 30
 

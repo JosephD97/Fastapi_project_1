@@ -1,11 +1,12 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, declarative_base
+from .config import settings
 
 
 DATABASE_URL = "postgresql://blog_user:123456@localhost:5432/blog_db"
 
 # создаём соединение с базой
-engine = create_engine(DATABASE_URL)
+engine = create_engine(settings.DATABASE_URL)
 
 # сессии для работы с БД
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
@@ -20,8 +21,6 @@ def get_db():
         yield db
     finally:
         db.close()
-
-
 
 
 
